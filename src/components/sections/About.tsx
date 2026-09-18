@@ -1,109 +1,94 @@
-import React from "react";
+import { profile } from "@/data/profile";
+import { SectionHeader } from "@/components/site/SectionHeader";
+import { LineReveal, Reveal } from "@/components/site/Motion";
 
-export const About = () => {
-  const highlights = [
-    "Backend Development",
-    "System Design",
-    "Networking",
-    "Java",
-    "PostgreSQL",
-    "MVC Architecture",
-  ];
+const focusAreas = [
+  "Backend development",
+  "Enterprise systems",
+  "Cloud infrastructure",
+  "DevOps",
+  "AI-powered applications",
+];
 
+export function About() {
   return (
-    <section id="about" className="min-h-screen py-24 flex items-center bg-background relative overflow-hidden">
-      {/* Subtle background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-500/[0.03] rounded-full blur-3xl pointer-events-none" />
+    <section id="about" className="theme-paper py-24 md:py-36">
+      <div className="shell">
+        <SectionHeader index="01" label="About" aside="Who I am" />
 
-      <div className="container mx-auto px-6 flex flex-col justify-center relative z-10">
+        <h2 className="mt-14 text-[clamp(2.75rem,8.4vw,9.5rem)] font-semibold leading-[0.9] tracking-[-0.05em] md:mt-24">
+          <LineReveal
+            lines={[
+              "I build software",
+              <>
+                that solves <span className="editorial-italic tracking-[-0.02em]">real problems.</span>
+              </>,
+            ]}
+          />
+        </h2>
 
-        {/* Section Label */}
-        <div className="flex items-center gap-4 mb-16">
-          <span className="text-red-500 font-mono text-sm tracking-widest uppercase">01</span>
-          <div className="h-px w-16 bg-red-500/50" />
-          <span className="text-white/50 font-mono text-sm tracking-widest uppercase">About Me</span>
-        </div>
+        <div className="mt-16 grid grid-cols-12 gap-x-[var(--gutter)] gap-y-12 md:mt-28">
+          <Reveal className="col-span-12 sm:col-span-8 md:col-span-4">
+            <figure className="group">
+              <div className="overflow-hidden bg-paper-dim">
+                <img
+                  src={profile.portrait.src}
+                  srcSet={profile.portrait.srcSet}
+                  sizes="(min-width: 768px) 30vw, 70vw"
+                  width={profile.portrait.width}
+                  height={profile.portrait.height}
+                  alt="Portrait of Nadun Madusanka"
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[4/5] w-full object-cover object-top grayscale transition-all [transition-duration:1200ms] ease-editorial group-hover:scale-[1.02] group-hover:grayscale-0"
+                />
+              </div>
+              <figcaption className="label mt-3 flex justify-between text-ink/50">
+                <span>{profile.name}</span>
+                <span>{profile.location}</span>
+              </figcaption>
+            </figure>
+          </Reveal>
 
-        {/* Hero Statement */}
-        <div className="max-w-5xl">
-          <p className="text-4xl md:text-5xl lg:text-6xl font-light text-white/90 leading-[1.15] tracking-tight">
-            Computer Science undergraduate passionate about{" "}
-            <span className="text-red-500 font-normal">backend development</span>,{" "}
-            <span className="text-red-500 font-normal">system design</span>, and{" "}
-            <span className="text-red-500 font-normal">networking</span>.
-          </p>
-        </div>
+          <div className="col-span-12 md:col-span-7 md:col-start-6">
+            <Reveal>
+              <p className="text-balance text-[clamp(1.5rem,2.5vw,2.25rem)] leading-[1.2] tracking-[-0.025em]">
+                I'm Nadun — a Computer Science graduate from the University of Colombo School of Computing, and a
+                software engineer focused on the backend: the APIs, data models and infrastructure that keep real
+                systems running.
+              </p>
+            </Reveal>
 
-        {/* Skill Tags */}
-        <div className="flex flex-wrap gap-3 mt-10">
-          {highlights.map((item) => (
-            <span
-              key={item}
-              className="px-4 py-1.5 text-xs font-mono tracking-wider uppercase border border-white/10 text-white/60 rounded-full hover:border-red-500/50 hover:text-red-400 transition-all duration-300 cursor-default"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
+            <Reveal className="mt-10 grid gap-6 text-[1.0625rem] leading-[1.7] text-ink/70 lg:grid-cols-2 lg:gap-10">
+              <p>
+                At JDNBrothers I build a transport and logistics management platform with Spring Boot, React and
+                PostgreSQL, shipped to AWS through Docker and GitHub Actions. Alongside that, I work on enterprise
+                systems as an ERP technical consultant intern at Altria Consulting, developing in SAP ABAP.
+              </p>
+              <p>
+                I'm increasingly drawn to AI-powered software — using models as a practical tool inside real products.
+                Away from the keyboard I hike and explore nature, and that same curiosity shapes how I approach
+                problems: look from a different angle, then build the simplest thing that works.
+              </p>
+            </Reveal>
 
-        {/* Divider */}
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent my-16" />
-
-        {/* Content Row */}
-        <div className="flex flex-col lg:flex-row items-stretch gap-10">
-          {/* Left: Image */}
-          <div className="w-full lg:w-1/2 group">
-            <div className="relative overflow-hidden rounded-2xl">
-              <img
-                src="./Images/WhatsApp Image 2025-11-19 at 00.37.36_1f373920.jpg"
-                alt="Nadun Madusanka"
-                className="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              {/* Red accent border on hover */}
-              <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-red-500/30 transition-colors duration-500" />
-            </div>
-          </div>
-
-          {/* Right: Text & CTA */}
-          <div className="w-full lg:w-1/2 flex flex-col justify-center">
-            <h3 className="text-2xl font-light text-white mb-6">
-              I'm <span className="text-red-500 font-semibold">Nadun</span>.
-            </h3>
-            <p className="text-lg text-white/60 leading-relaxed mb-4">
-              Beyond technology, I enjoy hiking and exploring nature,
-              which helps me maintain a balanced lifestyle and brings a sense
-              of adventure and curiosity.
-            </p>
-            <p className="text-lg text-white/60 leading-relaxed mb-10">
-              That spirit of exploration also shapes how I approach
-              problem-solving in technology always seeking new
-              perspectives and creative solutions.
-            </p>
-
-            {/* CTA Button */}
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/btn inline-flex items-center gap-3 w-fit px-8 py-3.5 border border-red-500/50 text-red-400 text-sm font-mono tracking-widest uppercase rounded-sm hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300"
-            >
-              View Resume
-              <svg
-                className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
+            <Reveal className="mt-14">
+              <p className="label mb-4 text-ink/45">Focus</p>
+              <ul className="border-t border-ink/15">
+                {focusAreas.map((area, i) => (
+                  <li
+                    key={area}
+                    className="flex items-baseline justify-between border-b border-ink/15 py-3.5 text-lg tracking-[-0.01em]"
+                  >
+                    {area}
+                    <span className="label text-ink/40">{String(i + 1).padStart(2, "0")}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
+}

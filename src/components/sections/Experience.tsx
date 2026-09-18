@@ -1,81 +1,110 @@
-const experiences = [
-  {
-    role: "Software Engineer",
-    company: "CeyCode",
-    period: "2025 - PRESENT",
-    logo: "./Images/2026-03-09_03-03__1_-removebg-preview.png",
-  },
-  {
-    role: "ERP Technical Consultant - Intern",
-    company: "Altria",
-    period: "2025 - PRESENT",
-    logo: "./Images/Altria-Logo-OD@4x-1024x366.png",
-  },
-];
+import { motion } from "framer-motion";
+import { experiences, formatMonth } from "@/data/experience";
+import { SectionHeader } from "@/components/site/SectionHeader";
+import { LineReveal, Reveal } from "@/components/site/Motion";
+import { ease } from "@/lib/motion";
 
-export const Experience = () => {
+const toMonths = (iso: string | null) => {
+  const date = iso ? new Date(`${iso}-01T00:00:00`) : new Date();
+  return date.getFullYear() * 12 + date.getMonth();
+};
+
+/** Horizontal axis showing how the roles overlap in time. */
+function Timeline() {
+  const start = Math.min(...experiences.map((e) => toMonths(e.start)));
+  const end = toMonths(null) + 1;
+  const span = end - start;
+  const years = Array.from(
+    { length: Math.floor(end / 12) - Math.ceil(start / 12) + 1 },
+    (_, i) => Math.ceil(start / 12) + i,
+  );
+
   return (
-    <section id="experience" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background py-14 sm:py-20 lg:py-24">
-      {/* Subtle background glow */}
-      <div className="pointer-events-none absolute right-0 top-1/3 h-[360px] w-[360px] rounded-full bg-red-500/[0.03] blur-3xl sm:h-[600px] sm:w-[600px]" />
+    <div aria-hidden className="relative mt-14 hidden md:block">
+      <div className="relative h-5">
+        <span className="label absolute left-0 top-0 text-ink/45">{formatMonth(experiences[0].start)}</span>
+        <span className="label absolute right-0 top-0 text-ink/45">Today</span>
+        {years.map((year) => (
+          <span
+            key={year}
+            className="label absolute top-0 -translate-x-1/2 text-ink/45"
+            style={{ left: `${((year * 12 - start) / span) * 100}%` }}
+          >
+            {year}
+          </span>
+        ))}
+      </div>
+      <div className="relative mt-3 space-y-2 border-y border-ink/15 py-4">
+        {experiences.map((exp) => {
+          const left = ((toMonths(exp.start) - start) / span) * 100;
+          const width = ((toMonths(exp.end) + 1 - toMonths(exp.start)) / span) * 100;
+          return (
+            <div key={exp.company} className="relative h-7">
+              <motion.div
+                className="absolute inset-y-0 flex origin-left items-center justify-between gap-4 bg-ink px-3 text-paper"
+                style={{ left: `${left}%`, width: `${width}%` }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease }}
+              >
+                <span className="label whitespace-nowrap">{exp.company}</span>
+                {!exp.end && <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />}
+              </motion.div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6">
-        {/* Section Label */}
-        <div className="mb-10 flex items-center gap-3 sm:mb-16 sm:gap-4">
-          <span className="text-red-500 font-mono text-sm tracking-widest uppercase">02</span>
-          <div className="h-px w-16 bg-red-500/50" />
-          <span className="text-white/50 font-mono text-sm tracking-widest uppercase">Experience</span>
-        </div>
+export function Experience() {
+  return (
+    <section id="experience" className="theme-paper py-24 md:py-36">
+      <div className="shell">
+        <SectionHeader index="04" label="Experience" aside="Chronological" />
 
-       
+        <h2 className="display mt-14 text-[clamp(2.75rem,15.5vw,13rem)] md:mt-24">
+          <LineReveal lines={["Experience"]} />
+        </h2>
 
-        <div className="mx-auto space-y-0">
-          {experiences.map((exp, index) => (
-            <div
-              key={index}
-              className="group"
-            >
-              {/* Top border */}
-              <div className="h-px w-full bg-gradient-to-r from-white/10 via-white/5 to-white/10 group-hover:from-red-500/30 group-hover:via-red-500/10 group-hover:to-red-500/30" />
+        <Timeline />
 
-              {/* Experience Entry */}
-              <div className="flex items-center justify-between gap-3 overflow-x-auto rounded-lg py-3 group-hover:bg-red-500/[0.02] sm:grid sm:grid-cols-12 sm:gap-6 sm:py-2">
-                {/* Left side - Icon & Company */}
-                <div className="flex min-w-max items-center gap-3 sm:col-span-6 sm:gap-6">
-                  {/* Logo */}
-                  <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg p-1 sm:h-32 sm:w-32 sm:p-2 md:h-44 md:w-44 lg:h-[200px] lg:w-[200px]">
-                    <img
-                      src={exp.logo}
-                      alt={`${exp.company} logo`}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+        <ol className="mt-12 border-t border-ink/15 md:mt-16">
+          {experiences.map((exp, i) => (
+            <li key={exp.company} className="group border-b border-ink/15">
+              <Reveal className="grid grid-cols-12 gap-x-[var(--gutter)] gap-y-5 py-10 md:py-14">
+                <div className="col-span-12 flex items-center justify-between gap-4 md:col-span-3 md:flex-col md:items-start md:justify-start">
+                  <p className="label">
+                    <time dateTime={exp.start}>{formatMonth(exp.start)}</time> —{" "}
+                    {exp.end ? <time dateTime={exp.end}>{formatMonth(exp.end)}</time> : "Present"}
+                  </p>
+                  <p className="label text-ink/40">{String(i + 1).padStart(2, "0")}</p>
+                </div>
 
-                  {/* Company Name */}
-                  <h3 className="font-abel whitespace-nowrap text-xl font-black leading-none tracking-tight text-white/90 group-hover:text-red-500 sm:text-4xl sm:leading-tight md:text-5xl lg:text-6xl">
+                <div className="col-span-12 md:col-span-5">
+                  <h3 className="text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-[0.95] tracking-[-0.045em] transition-transform duration-700 ease-editorial md:group-hover:translate-x-2">
                     {exp.company}
                   </h3>
+                  <p className="mt-3 text-lg tracking-[-0.01em] text-ink/70">{exp.role}</p>
                 </div>
 
-                {/* Right side - Period & Role */}
-                <div className="flex min-w-max flex-col items-end gap-1 text-right sm:col-span-6 sm:mt-0 sm:gap-2">
-                  {/* Period */}
-                  <span className="w-fit whitespace-nowrap rounded-full border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-red-400 sm:px-3 sm:text-xs md:ml-auto">
-                    {exp.period}
-                  </span>
-                  {/* Role */}
-                  <p className="font-abel whitespace-nowrap text-sm uppercase text-white/60 sm:text-xl md:text-2xl lg:text-3xl">
-                    {exp.role}
-                  </p>
+                <div className="col-span-12 md:col-span-4">
+                  <p className="text-[1.0625rem] leading-relaxed text-ink/75">{exp.summary}</p>
+                  <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
+                    {exp.stack.map((item) => (
+                      <li key={item} className="font-mono text-[0.8125rem] text-ink/60">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-            </div>
+              </Reveal>
+            </li>
           ))}
-
-          {/* Bottom border */}
-          <div className="h-px w-full bg-gradient-to-r from-white/10 via-white/5 to-white/10" />
-        </div>
+        </ol>
       </div>
     </section>
   );
-};
+}

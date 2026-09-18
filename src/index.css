@@ -1,71 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/*
+  Design system — editorial black / warm white with a single signal accent.
+  All colours are HSL channels so Tailwind can apply alpha (e.g. text-fg/60).
 */
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --ink: 60 5% 4%;
+    --ink-soft: 60 3% 9%;
+    --paper: 43 16% 92%;
+    --paper-dim: 40 12% 84%;
+    --signal: 16 100% 55%;
 
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 100%;
+    /* Contextual pair, flipped by .theme-paper */
+    --fg: var(--paper);
+    --bg: var(--ink);
 
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 100%;
+    /* shadcn/ui tokens, mapped onto the palette */
+    --background: var(--ink);
+    --foreground: var(--paper);
+    --card: var(--ink-soft);
+    --card-foreground: var(--paper);
+    --popover: var(--ink);
+    --popover-foreground: var(--paper);
+    --primary: var(--paper);
+    --primary-foreground: var(--ink);
+    --secondary: var(--ink-soft);
+    --secondary-foreground: var(--paper);
+    --muted: 60 3% 14%;
+    --muted-foreground: 40 5% 62%;
+    --accent: var(--signal);
+    --accent-foreground: var(--ink);
+    --destructive: 0 72% 51%;
+    --destructive-foreground: var(--paper);
+    --border: 40 4% 20%;
+    --input: 40 4% 20%;
+    --ring: var(--signal);
+    --radius: 0.25rem;
+    --terminal: var(--signal);
 
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
-
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
-
-    --accent: 142 76% 36%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 100%;
-
-    --radius: 0.5rem;
-
-    --terminal: 142 76% 36%;
+    --gutter: clamp(1rem, 3.4vw, 3rem);
+    --nav-height: 4.5rem;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
 
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-background text-foreground;
-    overflow-x: hidden;
-  }
-
-  html {
-    scroll-behavior: smooth;
+    @apply bg-ink font-sans text-paper antialiased;
+    overflow-x: clip;
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
   }
 
   html,
@@ -73,5 +67,91 @@ All colors MUST be HSL.
   #root {
     width: 100%;
     min-height: 100%;
+  }
+
+  section[id] {
+    scroll-margin-top: var(--nav-height);
+  }
+
+  ::selection {
+    background: hsl(var(--signal));
+    color: hsl(var(--ink));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--signal));
+    outline-offset: 3px;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+}
+
+@layer components {
+  .theme-ink {
+    --fg: var(--paper);
+    --bg: var(--ink);
+    background-color: hsl(var(--ink));
+    color: hsl(var(--paper));
+  }
+
+  .theme-paper {
+    --fg: var(--ink);
+    --bg: var(--paper);
+    background-color: hsl(var(--paper));
+    color: hsl(var(--ink));
+  }
+
+  /* Page container with fluid side gutters */
+  .shell {
+    width: 100%;
+    max-width: 1680px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Small uppercase technical label */
+  .label {
+    @apply font-mono text-[0.6875rem] font-medium uppercase leading-none tracking-[0.14em];
+  }
+
+  /* Oversized, tightly set display type */
+  .display {
+    @apply font-sans font-semibold uppercase;
+    letter-spacing: -0.045em;
+    line-height: 0.86;
+  }
+
+  .editorial-italic {
+    @apply font-serif font-normal normal-case italic;
+    letter-spacing: -0.01em;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

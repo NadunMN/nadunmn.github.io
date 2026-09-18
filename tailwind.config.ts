@@ -7,17 +7,25 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1rem",
       screens: {
         "2xl": "1400px",
       },
     },
     extend: {
-      // fontFamily: {
-      
-      // },
-
       colors: {
+        ink: {
+          DEFAULT: "hsl(var(--ink) / <alpha-value>)",
+          soft: "hsl(var(--ink-soft) / <alpha-value>)",
+        },
+        paper: {
+          DEFAULT: "hsl(var(--paper) / <alpha-value>)",
+          dim: "hsl(var(--paper-dim) / <alpha-value>)",
+        },
+        signal: "hsl(var(--signal) / <alpha-value>)",
+        // Contextual colours: resolve to ink or paper depending on the surrounding .theme-* class
+        fg: "hsl(var(--fg) / <alpha-value>)",
+        bg: "hsl(var(--bg) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -54,15 +62,12 @@ export default {
         terminal: "hsl(var(--terminal))",
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
-        poppins: ["Playwrite US Trad Guides", "cursive"],
-        Bungee: ["Bungee Spice", "sans-serif"],
-        dancingScript: ["Dancing Script", "cursive"],
-        'bebas-neue': ['Bebas Neue', 'cursive'],
-        'dancing-script': ['Dancing Script', 'cursive'],
-        abel: ['Abel', 'sans-serif'],
-
+        sans: ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["Geist Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+        serif: ["Instrument Serif", "ui-serif", "Georgia", "serif"],
+      },
+      transitionTimingFunction: {
+        editorial: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -106,6 +111,14 @@ export default {
             transform: "translateX(0)",
           },
         },
+        marquee: {
+          from: { transform: "translate3d(0, 0, 0)" },
+          to: { transform: "translate3d(-50%, 0, 0)" },
+        },
+        "pulse-dot": {
+          "0%": { transform: "scale(1)", opacity: "0.7" },
+          "70%, 100%": { transform: "scale(2.6)", opacity: "0" },
+        },
         "pulse-slow": {
           "0%, 100%": {
             opacity: "1",
@@ -121,6 +134,8 @@ export default {
         "fade-in": "fade-in 0.6s ease-out forwards",
         "slide-in-right": "slide-in-right 0.6s ease-out forwards",
         "pulse-slow": "pulse-slow 4s ease-in-out infinite",
+        marquee: "marquee var(--marquee-duration, 40s) linear infinite",
+        "pulse-dot": "pulse-dot 2s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
     },
   },
