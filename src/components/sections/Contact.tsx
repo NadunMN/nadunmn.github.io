@@ -98,7 +98,7 @@ export function Contact() {
               <li className="group border-b border-paper/15">
                 <a
                   href={profile.cv}
-                  download
+                  download={profile.cvFileName}
                   className="flex items-center justify-between py-5 text-xl tracking-[-0.02em] md:text-2xl"
                 >
                   <span className="transition-transform duration-700 ease-editorial group-hover:translate-x-2">

@@ -11,6 +11,7 @@ export const profile = {
   email: "nadunmaddepola@gmail.com",
   // Place the CV at public/resume.pdf
   cv: asset("resume.pdf"),
+  cvFileName: "Nadun_Madusanka_SE.pdf",
   portrait: {
     src: asset("Images/portrait-1080.webp"),
     srcSet: `${asset("Images/portrait-640.webp")} 640w, ${asset("Images/portrait-1080.webp")} 1080w`,

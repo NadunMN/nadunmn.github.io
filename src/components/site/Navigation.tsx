@@ -122,7 +122,7 @@ export function Navigation() {
                       {social.label}
                     </a>
                   ))}
-                  <a href={profile.cv} download className="label ml-auto text-signal">
+                  <a href={profile.cv} download={profile.cvFileName} className="label ml-auto text-signal">
                     CV ↓
                   </a>
                 </div>

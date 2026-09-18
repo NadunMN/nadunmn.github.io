@@ -93,7 +93,7 @@ export function Hero() {
             </Link>
             <a
               href={profile.cv}
-              download
+              download={profile.cvFileName}
               className="group flex h-14 items-center justify-between gap-6 border border-paper/25 px-5 transition-colors duration-300 hover:border-paper sm:flex-1 md:flex-none"
             >
               <span className="label">Download CV</span>
