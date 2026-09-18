@@ -63,7 +63,7 @@ export function About() {
               <p>
                 At JDNBrothers I build a transport and logistics management platform with Spring Boot, React and
                 PostgreSQL, shipped to AWS through Docker and GitHub Actions. Alongside that, I work on enterprise
-                systems as an ERP technical consultant intern at Altria Consulting, developing in SAP ABAP.
+                systems as an ERP technical consultant at Altria Consulting, developing in SAP ABAP.
               </p>
               <p>
                 I'm increasingly drawn to AI-powered software — using models as a practical tool inside real products.
