@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { profile } from "@/data/profile";
+import { DeveloperStage } from "@/components/three/DeveloperStage";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { LineReveal, Reveal } from "@/components/site/Motion";
 
@@ -11,6 +13,8 @@ const focusAreas = [
 ];
 
 export function About() {
+  const rowRef = useRef<HTMLDivElement>(null);
+
   return (
     <section id="about" className="theme-paper py-24 md:py-36">
       <div className="shell">
@@ -27,8 +31,9 @@ export function About() {
           />
         </h2>
 
-        <div className="mt-16 grid grid-cols-12 gap-x-[var(--gutter)] gap-y-12 md:mt-28">
-          <Reveal className="col-span-12 sm:col-span-8 md:col-span-4">
+        <div ref={rowRef} className="mt-16 grid grid-cols-12 gap-x-[var(--gutter)] gap-y-12 md:mt-28">
+          <Reveal className="col-span-12 sm:col-span-8 md:col-span-5 lg:col-span-4">
+            {/* Portrait replaced by the interactive 3D developer scene below.
             <figure className="group">
               <div className="overflow-hidden bg-paper-dim">
                 <img
@@ -46,6 +51,15 @@ export function About() {
               <figcaption className="label mt-3 flex justify-between text-ink/50">
                 <span>{profile.name}</span>
                 <span>{profile.location}</span>
+              </figcaption>
+            </figure>
+            */}
+            <figure className="md:sticky md:top-[calc(var(--nav-height)+1.5rem)]">
+              <DeveloperStage trackRef={rowRef} />
+              <figcaption className="label mt-3 flex justify-between text-ink/50">
+                {/* <span>{profile.name}</span> */}
+                {/* <span className="hidden sm:inline">Scroll · Click to say hi</span> */}
+                {/* <span>{profile.location}</span> */}
               </figcaption>
             </figure>
           </Reveal>
